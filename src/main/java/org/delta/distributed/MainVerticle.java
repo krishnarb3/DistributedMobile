@@ -77,13 +77,26 @@ public class MainVerticle extends io.vertx.rxjava.core.AbstractVerticle {
     }
   }
 
+  public void dummy() {
+    long sum = 0;
+    for(long i=0; i<99999999; i++) {
+      sum += i;
+    }
+  }
+
   public String tempProgram() {
-    return "import java.io.*;\n"
+    return "package org.delta.distributed;\n"
+        + "\n"
+        + "import java.io.*;\n"
         + "import java.util.*;\n"
         + "\n"
         + "public class Main {\n"
         + "\t public static void main(String args[]) {\n"
-        + "\t\tSystem.out.println(\"Hello\");\n"
+        + "    long sum = 0;\n"
+        + "    for(long i=0; i<99999999; i++) {\n"
+        + "      sum += i;\n"
+        + "    }"
+        + "    System.out.println(sum);\n"
         + "\t}\n"
         + "}";
   }
