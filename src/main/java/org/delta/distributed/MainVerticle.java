@@ -58,13 +58,13 @@ public class MainVerticle extends io.vertx.rxjava.core.AbstractVerticle {
       });
 
     vertx.eventBus().consumer("result.to.server", message -> {
-      String body = (String) message.body();
+      String body =  String.valueOf(message.body());
       Double num = Double.valueOf(body);
       System.out.println(body);
       res = res * num;
       temp++;
       if(temp == 4) {
-        System.out.println(res);
+        System.out.println("Result computed: " + res);
       }
     });
   }
@@ -109,10 +109,10 @@ public class MainVerticle extends io.vertx.rxjava.core.AbstractVerticle {
   }
 
   @DistributedMethod
-  public static double multiply(long l, long u) {
-    double product = l, i;
-    for(i = l+1; i <= u; i++) {
-      product *= i;
+  public static java.math.BigInteger multiply(java.math.BigInteger l, java.math.BigInteger u) {
+    java.math.BigInteger product = l, i;
+    for(i = l.add(java.math.BigInteger.ONE); i.compareTo(u) <= 0 ; i = i.add(java.math.BigInteger.ONE)) {
+      product = product.multiply(i);
     }
     return product;
   }

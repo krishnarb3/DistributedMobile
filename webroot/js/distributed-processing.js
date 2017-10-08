@@ -3,7 +3,7 @@ var weight = 0;
 
 function init() {
 
-    $.get( "http://192.168.42.153:9090/weight/", function(data) {
+    $.get( "http://10.1.24.43:9090/weight/", function(data) {
         weight = data;
         console.log(weight);
     });
@@ -21,7 +21,7 @@ function init() {
                 if(weight == temp) {
                     console.log(program);
                     document.getElementById("program").innerHTML = program;
-                    //Android.compileAndExecuteCode(program);
+                    Android.compileAndExecuteCode(program);
                 }
             }
         });
@@ -36,5 +36,6 @@ function stripExtraLines(text) {
 }
 
 function sendResult(result) {
+    console.log(result);
     eventBus.send("result.to.server", result);
 }

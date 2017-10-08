@@ -14,6 +14,7 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Set;
@@ -27,7 +28,7 @@ public class DistributedMethodAnnotationProcessor extends AbstractProcessor {
   private Filer filer;
   private Messager messager;
   private static final Integer NO_OF_DEVICES = 4;
-  private static final Integer NUM = 40;
+  private static final BigInteger NUM = new BigInteger("40");
 
   @Override
   public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -53,15 +54,14 @@ public class DistributedMethodAnnotationProcessor extends AbstractProcessor {
         Trees trees = Trees.instance(processingEnv);
         MethodTree methodTree = trees.getTree(method);
 
-        Integer limit = 10000;
-        long start = 1;
+        BigInteger start = new BigInteger("1");
 
         for(int i = 0; i < NO_OF_DEVICES; i++) {
           JavaFile javaFile = JavaFileGenHelper.generateJavaFile(methodTree
                   .toString().replace("@DistributedMethod()", ""),
               methodTree.getName().toString(),
-              start + "", (start + NUM/NO_OF_DEVICES - 1) + "");
-          start = start + NUM/NO_OF_DEVICES;
+              start.toString() + "", (start.add(NUM.divide(new BigInteger("4"))).subtract(BigInteger.ONE)) + "");
+          start = start.add(NUM.divide(new BigInteger("4")));
           Path currentRelativePath = Paths.get("");
           String s = currentRelativePath.toAbsolutePath().toString();
           try {
