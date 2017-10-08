@@ -1,2 +1,3 @@
 rootProject.name = 'distributed-mobile-server'
+include 'framework'
 
